@@ -3,6 +3,7 @@ async function heapSort(array) {
     const color = array[0].style.background;
 
     for (let i = Math.floor(len / 2) - 1; i >= 0; i--) {
+        if (isPressedStop) return;
         await heapify(array, len, i);
     }
 
