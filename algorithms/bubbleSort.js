@@ -1,5 +1,4 @@
-async function bubbleSort() {
-    const array = document.querySelectorAll('.sort-bar');
+async function bubbleSort(array) {
     let swapped;
     let counter = 0;
     do {
@@ -25,12 +24,15 @@ async function bubbleSort() {
         counter++;
 
     } while (swapped);
-    array.forEach(item => item.style.background = 'lime');
 }
 
 document.querySelector('.Bubble').addEventListener('click', async () => {
+    stopBtn.disabled = false;
     isPressedStop = false;
     document.querySelectorAll('.Sort').forEach(btn => btn.disabled = true);
-    await bubbleSort();
+    const array = document.querySelectorAll('.sort-bar');
+    let color = array[0].style.background;
+    await bubbleSort(array);
+    array.forEach(item => item.style.background = !isPressedStop ? 'lime' : color);
     document.querySelectorAll('.Sort').forEach(btn => btn.disabled = false);
 });

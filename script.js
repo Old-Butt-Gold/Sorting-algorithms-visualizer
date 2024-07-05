@@ -25,7 +25,8 @@ function createNewArray(size) {
         bar.classList.add('flex-item');
         bar.classList.add('sort-bar');
         bar.style.width = `${(1000 - size) / 100 + 1}px`;
-        bar.style.height = `${value / (max / 100)}%`;
+        let heightValue = value / (max / 100);
+        bar.style.height = `${Math.round(heightValue * 10) / 10}%`;
         sortingContainer.appendChild(bar);
     }
 }
