@@ -1,27 +1,21 @@
 async function insertionSort(array) {
-    const array = document.querySelectorAll('.sort-bar');
     array[0].style.background = 'green';
     for (let i = 1; i < array.length; i++) {
         let key = parseFloat(array[i].style.height);
         let j = i - 1;
 
-        array[i].style.background = 'yellow';
         await delayTime(delay);
         if (isPressedStop) return;
 
         while (j > -1 && parseFloat(array[j].style.height) > key) {
-            if (isPressedStop) return;
-            array[j].style.background = 'yellow';
-
-            await delayTime(delay);
-
             array[j + 1].style.height = array[j].style.height;
             array[j + 1].style.background = 'yellow';
-            j--;
 
-            for (let k = i; k > -1; k--) {
-                array[k].style.background = 'green';
-            }
+            await delayTime(delay);
+            if (isPressedStop) return;
+
+            array[j + 1].style.background = 'green';
+            j--;
         }
 
         array[j + 1].style.height = `${key}%`;
