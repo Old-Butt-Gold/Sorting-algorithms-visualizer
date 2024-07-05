@@ -8,19 +8,20 @@ body {
 }
 
 #sorting {
-    margin-top: 20px;
+    margin: 10px 0 10px 0;
     display: flex;
     flex-wrap: nowrap;
     width: 96%;
-    height: 75vh;
+    height: 600px;
     justify-content: center;
     transition: 2s ease-in-out;
-    margin-bottom: 25px;
     transform: rotate(180deg) scaleX(-1);
 }
 
 .flex-item {
+    height: 600px;
     background: #e43f5a;
+    border: 0.5px black;
     transition: 0.1s all ease;
 }
 

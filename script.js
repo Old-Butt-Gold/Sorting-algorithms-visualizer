@@ -15,16 +15,17 @@ function swap(item1, item2) {
 }
 
 function createNewArray(size) {
-    array = [];
     sortingContainer.innerHTML = '';
+    array = [];
     for (let i = 0; i < size; i++) {
-        const value = Math.floor(Math.random() * 1000) + 1;
-        array.push(value);
+        const max = parseInt(sizeSlider.max);
+        const value = Math.floor(Math.random() * max) + 1;
         const bar = document.createElement('div');
+        array.push(value);
         bar.classList.add('flex-item');
         bar.classList.add('sort-bar');
         bar.style.width = `${(1000 - size) / 100 + 1}px`;
-        bar.style.height = `${value / 10}%`;
+        bar.style.height = `${value / (max / 100)}%`;
         sortingContainer.appendChild(bar);
     }
 }
@@ -35,7 +36,6 @@ function delayTime(ms) {
 
 speedSlider.addEventListener('input', () => {
     delay = parseInt(speedSlider.max) + 10 - parseInt(speedSlider.value);
-    console.log(delay);
 });
 
 sizeSlider.addEventListener('input', () => {
