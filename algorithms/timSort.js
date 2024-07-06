@@ -6,7 +6,7 @@ async function timSort(array) {
 
     for (let i = 0; i < len; i += minRun) {
         if (isPressedStop) return;
-        await insertionSort(array, i, Math.min(i + minRun - 1, len - 1));
+        await insertionSortRange(array, i, Math.min(i + minRun - 1, len - 1));
     }
 
     for (let size = minRun; size < len; size = 2 * size) {
@@ -31,7 +31,7 @@ async function timSort(array) {
     }
 }
 
-async function insertionSort(array, left, right) {
+async function insertionSortRange(array, left, right) {
     array[left].style.background = 'green';
     for (let i = left + 1; i <= right; i++) {
         let key = parseFloat(array[i].style.height);
