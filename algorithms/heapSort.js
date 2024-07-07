@@ -49,7 +49,8 @@ document.querySelector('.Heap').addEventListener('click', async () => {
     isPressedStop = false;
     document.querySelectorAll('.Sort').forEach(btn => btn.disabled = true);
     const array = document.querySelectorAll('.sort-bar');
+    const color = array[0].style.background;
     await heapSort(array);
-    array.forEach(item => item.style.background = !isPressedStop ? 'lime' : item.style.background);
+    array.forEach(item => item.style.background = !isPressedStop ? 'lime' : color);
     document.querySelectorAll('.Sort').forEach(btn => btn.disabled = false);
 });

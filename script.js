@@ -41,10 +41,10 @@ sizeSlider.addEventListener('input', () => {
 });
 
 newArrayBtn.addEventListener('click', () => {
-    isPressedStop = true;
+    stopBtn.disabled = true;
+    isPressedStop = false;
     sizeSlider.disabled = false;
     speedSlider.disabled = false;
-    stopBtn.disabled = false;
     document.querySelectorAll('.Sort').forEach(btn => btn.disabled = false);
     createNewArray(sizeSlider.value);
     isPressedStop = false;
@@ -56,4 +56,5 @@ stopBtn.addEventListener('click', () => {
     stopBtn.disabled = true;
 });
 
+stopBtn.disabled = true;
 createNewArray(sizeSlider.value);
