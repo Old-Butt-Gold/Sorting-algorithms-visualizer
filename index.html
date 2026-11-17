@@ -1,107 +1,438 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-palette="neon">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sorting algorithms visualizer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#070A14">
+  <meta name="description" content="Sortlab — a night-lab visualizer for sixteen classic sorting algorithms. Step through every comparison, swap and write with sound, metrics and side-by-side races.">
+  <title>Sortlab — sorting algorithms, under the scope</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
-    <nav class="navbar navbar-light bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Visualizer</a>
-            <a class="nav-link" href="https://github.com/Old-Butt-Gold/Sorting-algorithms-visualizer">Source Code</a>
-        </div>
-    </nav>
+  <div class="aurora" aria-hidden="true">
+    <span class="aurora-a"></span>
+    <span class="aurora-b"></span>
+    <span class="aurora-c"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
 
-    <div class="container-fluid my-4">
-        <div class="row justify-content-center">
-            <div class="col-md-6 mb-3">
-                <div class="range-input">
-                    <label for="size_slider" class="label">Size</label>
-                    <input id="size_slider" type="range" value="50" min="1" max="800">
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="range-input">
-                    <label for="speed_slider" class="label">Speed</label>
-                    <input id="speed_slider" type="range" min="20" max="500" value="60">
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center mb-4">
-            <div class="col-auto">
-                <button type="button" class="btn btn-outline-success new">New Array</button>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-outline-danger stop">Stop Sorting</button>
-            </div>
-        </div>
-        <div class="row justify-content-center" id="control-panel">
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Bubble Sort">Bubble Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Merge Sort">Merge Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Selection Sort">Selection Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Quick Sort">Quick Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Insertion Sort">Insertion Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Binary Sort">Binary Insertion Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Counting Sort">Counting Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Heap Sort">Heap Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Shell Sort">Shell Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Tim Sort">Tim Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Bogo Sort">Bogo Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Gnome Sort">Gnome Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Odd-Even Sort">Odd-Even Sort</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="btn btn-outline-light Shaker Sort">Shaker Sort</button>
-            </div>
-        </div>
+  <a class="skip-link" href="#vizFrame">Skip to the visualization</a>
+
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Sortlab home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <rect x="3" y="18" width="4" height="10" rx="1.3" fill="currentColor" opacity=".45"/>
+          <rect x="9.5" y="12" width="4" height="16" rx="1.3" fill="currentColor" opacity=".7"/>
+          <rect x="16" y="6" width="4" height="22" rx="1.3" fill="currentColor"/>
+          <rect x="22.5" y="15" width="4" height="13" rx="1.3" fill="currentColor" opacity=".55"/>
+          <path d="M2 31h28" stroke="currentColor" stroke-width="1.2" opacity=".35"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <strong>SORTLAB</strong>
+        <small>algorithm observatory</small>
+      </span>
+    </a>
+
+    <div class="topbar-center">
+      <button id="seedChip" class="chip seed-chip" type="button" data-tip="Copy this seed — the array is fully reproducible">
+        <span class="chip-dot" aria-hidden="true"></span>
+        <span class="chip-label">seed</span>
+        <span id="seedValue" class="mono">—</span>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5" y="5" width="8" height="8" rx="1.6" stroke="currentColor" stroke-width="1.3"/><path d="M11 5V3.8A1.8 1.8 0 0 0 9.2 2H3.8A1.8 1.8 0 0 0 2 3.8v5.4A1.8 1.8 0 0 0 3.8 11H5" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
     </div>
 
-    <div id="sorting" class="container-fluid"></div>
+    <div class="topbar-actions">
+      <button id="muteBtn" class="icon-btn" type="button" aria-pressed="true" aria-label="Sound on. Press M to mute" data-tip="Sound on (M)">
+        <svg class="ico-on" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 7.5h2.6L9.5 4v12L5.6 12.5H3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M12.5 7.2a4 4 0 0 1 0 5.6M15 5a7.5 7.5 0 0 1 0 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <svg class="ico-off" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 7.5h2.6L9.5 4v12L5.6 12.5H3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="m13 8 4 4m0-4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <button id="shareBtn" class="btn ghost" type="button" data-tip="Copy a link with this seed, size and settings">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="12" cy="3.5" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="4" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="12.5" r="2" stroke="currentColor" stroke-width="1.3"/><path d="m5.8 7 4.4-2.5M5.8 9l4.4 2.5" stroke="currentColor" stroke-width="1.3"/></svg>
+        Share
+      </button>
+      <div class="menu-wrap">
+        <button id="exportBtn" class="icon-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Export options" data-tip="Export">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3v9m0 0 3.2-3.2M10 12 6.8 8.8M4 13.5V16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="menu" id="exportMenu" hidden>
+          <button type="button" data-export="png"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/><circle cx="6" cy="6.5" r="1.1" fill="currentColor"/><path d="m3.5 11 3-3 2.2 2.2 1.8-1.8 2 2.6" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>PNG of the current frame</button>
+          <button type="button" data-export="csv"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 2.5h10v11H3z" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 6h5M5.5 8.5h5M5.5 11h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>CSV of the array</button>
+          <button type="button" data-export="json"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5C4.6 2.5 4 3.4 4 4.8v1.4c0 1-.5 1.8-1.5 1.8.9 0 1.5.8 1.5 1.8v1.4c0 1.4.6 2.3 2 2.3M10 2.5c1.4 0 2 .9 2 2.3v1.4c0 1 .5 1.8 1.5 1.8-.9 0-1.5.8-1.5 1.8v1.4c0 1.4-.6 2.3-2 2.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>JSON of the run</button>
+          <button type="button" data-export="link"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6.5 9.5 9.5 6.5M7.2 4.8l1.2-1.2a2.4 2.4 0 0 1 3.4 3.4l-1.2 1.2M8.8 11.2l-1.2 1.2a2.4 2.4 0 0 1-3.4-3.4l1.2-1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Copy configuration link</button>
+        </div>
+      </div>
+      <button id="helpBtn" class="icon-btn" type="button" aria-label="Help and keyboard shortcuts" data-tip="Shortcuts">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"/><path d="M8.3 7.7a1.8 1.8 0 1 1 2.6 1.6c-.6.3-.9.7-.9 1.4v.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="10" cy="13.8" r=".9" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
-    <script src="./algorithms/bubbleSort.js"></script>
-    <script src="./algorithms/selectionSort.js"></script>
-    <script src="./algorithms/insertionSort.js"></script>
-    <script src="./algorithms/quickSort.js"></script>
-    <script src="./algorithms/mergeSort.js"></script>
-    <script src="./algorithms/countingSort.js"></script>
-    <script src="./algorithms/binaryInsertionSort.js"></script>
-    <script src="./algorithms/shellSort.js"></script>
-    <script src="./algorithms/heapSort.js"></script>
-    <script src="./algorithms/timSort.js"></script>
-    <script src="./algorithms/bogoSort.js"></script>
-    <script src="./algorithms/gnomeSort.js"></script>
-    <script src="./algorithms/odd_even_Sort.js"></script>
-    <script src="./algorithms/shakerSort.js"></script>
+  <main class="workspace">
+    <section class="stage" aria-label="Visualization stage">
+      <div class="stage-head">
+        <div class="algo-id">
+          <div class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Now sorting</div>
+          <h1 id="algoName">—</h1>
+          <p id="algoDesc">—</p>
+        </div>
+        <div class="stage-head-side">
+          <div class="badges" id="algoBadges"></div>
+          <div id="statusBadge" class="status-badge" data-state="idle" role="status" aria-live="polite" aria-atomic="true">Ready</div>
+        </div>
+      </div>
+
+      <div class="stage-body">
+        <div class="viz-column">
+          <div class="viz-frame" id="vizFrame">
+            <canvas id="vizCanvas" role="img" aria-label="Current array as bars"></canvas>
+            <div class="viz-overlay" id="buildOverlay" hidden>
+              <span class="spinner" aria-hidden="true"></span>
+              <span id="buildText">Computing operations…</span>
+            </div>
+            <div class="legend" id="legend" aria-hidden="true">
+              <span><i style="--c: var(--c-compare)"></i>compare</span>
+              <span><i style="--c: var(--c-swap)"></i>swap</span>
+              <span><i style="--c: var(--c-pivot)"></i>pivot</span>
+              <span><i style="--c: var(--c-sorted)"></i>locked</span>
+            </div>
+          </div>
+          <div class="aux-wrap" id="auxWrap" hidden>
+            <div class="aux-label"><span>Auxiliary buffer</span><span id="auxHint" class="mono"></span></div>
+            <canvas id="auxCanvas" aria-hidden="true"></canvas>
+          </div>
+          <div id="raceView" class="race-view" hidden></div>
+        </div>
+
+        <aside class="code-panel" aria-label="Pseudocode">
+          <div class="code-head">
+            <span>Pseudocode</span>
+            <span id="codeAlgo" class="mono">—</span>
+          </div>
+          <ol id="pseudoList" class="pseudo"></ol>
+          <div class="code-foot"><span class="pulse-dot" aria-hidden="true"></span><span id="codeFoot">the active line follows the replay</span></div>
+        </aside>
+      </div>
+
+      <div class="timeline" aria-label="Playback timeline">
+        <button id="toStart" class="icon-btn small" type="button" aria-label="Jump to start" data-tip="Jump to start">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 3v10M12.5 3.6v8.8L6 8l6.5-4.4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/></svg>
+        </button>
+        <button id="stepBack" class="icon-btn small" type="button" aria-label="Step back one operation" data-tip="Step back (←)">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10.5 3.5 5 8l5.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="playBtn" class="play-btn" type="button" aria-label="Play" data-tip="Play / pause (Space)">
+          <svg class="ico-play" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M6.5 4.2v11.6L15 10 6.5 4.2Z" fill="currentColor"/></svg>
+          <svg class="ico-pause" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="5" y="4" width="3.6" height="12" rx="1.2" fill="currentColor"/><rect x="11.4" y="4" width="3.6" height="12" rx="1.2" fill="currentColor"/></svg>
+        </button>
+        <button id="stepFwd" class="icon-btn small" type="button" aria-label="Step forward one operation" data-tip="Step forward (→)">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3.5 11 8l-5.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="toEnd" class="icon-btn small" type="button" aria-label="Jump to end" data-tip="Jump to end">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M12 3v10M3.5 3.6v8.8L10 8 3.5 3.6Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/></svg>
+        </button>
+        <div class="timeline-track">
+          <input id="scrub" type="range" min="0" max="0" value="0" step="1" aria-label="Operation timeline">
+          <div class="timeline-meta">
+            <span id="opLabel" class="mono">op 0 / 0</span>
+            <span id="speedLabel" class="mono">×2 · 256 ops/s</span>
+          </div>
+        </div>
+        <button id="resetBtn" class="btn ghost compact" type="button" data-tip="Rewind to the first operation (does not rebuild)">Reset</button>
+      </div>
+
+      <div class="metrics" id="metrics">
+        <div class="metric">
+          <span class="metric-label">Comparisons</span>
+          <strong id="mCompares" class="mono">0</strong>
+          <span class="metric-note">pair checks</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Swaps</span>
+          <strong id="mSwaps" class="mono">0</strong>
+          <span class="metric-note">exchanges</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Writes</span>
+          <strong id="mWrites" class="mono">0</strong>
+          <span class="metric-note">array assignments</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Operations</span>
+          <strong id="mOps" class="mono">0</strong>
+          <span class="metric-note" id="mOpsNote">applied / total</span>
+        </div>
+        <div class="metric metric-wide">
+          <span class="metric-label">Playback</span>
+          <strong id="mClock" class="mono">00:00.0</strong>
+          <span class="metric-note" data-tip="Playback time is the replay duration at the current speed, not algorithm runtime.">replay clock · not algorithm runtime</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel" id="controlPanel" aria-label="Control deck">
+      <div class="panel-scroll">
+        <div class="panel-head">
+          <h2>Control deck</h2>
+          <span id="buildState" class="mono tiny">ready</span>
+        </div>
+
+        <section class="group">
+          <div class="group-head">
+            <label id="algoLabel">Algorithm</label>
+            <span id="algoFamily" class="mono tiny">—</span>
+          </div>
+          <div class="picker" id="algoPicker">
+            <button id="algoBtn" class="picker-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="algoLabel pickerName">
+              <span class="picker-copy">
+                <span id="pickerName">—</span>
+                <small id="pickerMeta" class="mono">—</small>
+              </span>
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="algoList" class="picker-list" role="listbox" aria-label="Algorithms" hidden></div>
+          </div>
+          <div class="quick-opts" id="quickOpts" hidden>
+            <div class="opt-row">
+              <span class="opt-label">Scheme</span>
+              <div class="seg" id="schemeSeg" role="group" aria-label="Quicksort scheme">
+                <button type="button" data-scheme="lomuto">Lomuto</button>
+                <button type="button" data-scheme="hoare">Hoare</button>
+              </div>
+            </div>
+            <div class="opt-row">
+              <span class="opt-label">Pivot</span>
+              <div class="seg" id="pivotSeg" role="group" aria-label="Pivot selection">
+                <button type="button" data-pivot="last">Last</button>
+                <button type="button" data-pivot="random">Random</button>
+                <button type="button" data-pivot="median">Median of 3</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="group">
+          <div class="group-head">
+            <label for="sizeRange">Array size</label>
+            <output id="sizeOut" class="mono">64</output>
+          </div>
+          <input id="sizeRange" type="range" min="8" max="500" step="1" value="64">
+          <div class="scale-row mono"><span>8</span><span>500</span></div>
+        </section>
+
+        <section class="group">
+          <div class="group-head">
+            <label for="speedRange">Playback speed</label>
+            <output id="speedOut" class="mono">×2</output>
+          </div>
+          <input id="speedRange" type="range" min="0" max="1000" step="1" value="326">
+          <div class="scale-row mono"><span>×0.25 · slow study</span><span>×64 · fast</span></div>
+        </section>
+
+        <section class="group">
+          <div class="group-head">
+            <label>Distribution</label>
+            <span id="distHint" class="mono tiny">—</span>
+          </div>
+          <div class="chips" id="distChips"></div>
+        </section>
+
+        <section class="group">
+          <div class="group-head"><label>Transport</label><span class="mono tiny" id="transportHint"></span></div>
+          <div class="transport-row">
+            <button id="newBtn" class="btn wide" type="button" data-tip="Build a fresh array with a new seed (N)">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 2.8V6h-3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              New array
+            </button>
+            <button id="repeatBtn" class="btn ghost wide" type="button" data-tip="Replay the exact same array (R)">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 6.2A5 5 0 0 1 13 8M13 9.8A5 5 0 0 1 3 8M3 2.8V6h3.2M13 13.2V10H9.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Repeat seed
+            </button>
+          </div>
+        </section>
+
+        <section class="group">
+          <div class="group-head"><label>Render mode</label><span id="renderHint" class="mono tiny">bars</span></div>
+          <div class="modes" id="renderModes" role="group" aria-label="Render mode">
+            <button type="button" data-mode="bars" aria-pressed="true"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="9" width="3" height="8" rx="1" fill="currentColor"/><rect x="8.5" y="4" width="3" height="13" rx="1" fill="currentColor"/><rect x="14" y="11" width="3" height="6" rx="1" fill="currentColor"/></svg>Bars</button>
+            <button type="button" data-mode="dots" aria-pressed="false"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="4.5" cy="14" r="2" fill="currentColor"/><circle cx="10" cy="6" r="2" fill="currentColor"/><circle cx="15.5" cy="11" r="2" fill="currentColor"/></svg>Dots</button>
+            <button type="button" data-mode="gradient" aria-pressed="false"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="9" width="3" height="8" rx="1" fill="currentColor" opacity=".5"/><rect x="8.5" y="4" width="3" height="13" rx="1" fill="currentColor"/><rect x="14" y="11" width="3" height="6" rx="1" fill="currentColor" opacity=".7"/></svg>Gradient</button>
+            <button type="button" data-mode="disparity" aria-pressed="false"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 16V9M10 16V4M16 16v-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M2 17.5h16" stroke="currentColor" stroke-width="1.2" opacity=".4"/></svg>Disparity</button>
+          </div>
+        </section>
+
+        <section class="group">
+          <div class="group-head"><label>Palette</label><span class="mono tiny">theme</span></div>
+          <div class="swatches" id="paletteRow" role="group" aria-label="Palette">
+            <button type="button" data-palette="neon" aria-pressed="true"><span class="sw neon"></span>Neon</button>
+            <button type="button" data-palette="colorblind" aria-pressed="false"><span class="sw cb"></span>Colorblind</button>
+            <button type="button" data-palette="light" aria-pressed="false"><span class="sw light"></span>Light</button>
+          </div>
+          <div class="toggles">
+            <label class="switch">
+              <input type="checkbox" id="valuesToggle" checked>
+              <span class="switch-ui" aria-hidden="true"></span>
+              <span>Values on bars <em>when they fit</em></span>
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="glowToggle" checked>
+              <span class="switch-ui" aria-hidden="true"></span>
+              <span>Glow <em>costs paint</em></span>
+            </label>
+            <label class="switch" id="treeToggleWrap" hidden>
+              <input type="checkbox" id="treeToggle">
+              <span class="switch-ui" aria-hidden="true"></span>
+              <span>Heap as tree</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="group">
+          <div class="group-head"><label>Sound</label><span id="audioHint" class="mono tiny">pentatonic · 220–880 Hz</span></div>
+          <div class="sound-row">
+            <button id="soundBtn" class="btn ghost wide" type="button" aria-pressed="true">Sound on</button>
+            <input id="volumeRange" type="range" min="0" max="100" step="1" value="70" aria-label="Sound volume">
+          </div>
+        </section>
+      </div>
+
+      <div class="sticky-transport" aria-label="Quick transport">
+        <button id="miniPlay" class="play-btn mini" type="button" aria-label="Play or pause">
+          <svg class="ico-play" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M6.5 4.2v11.6L15 10 6.5 4.2Z" fill="currentColor"/></svg>
+          <svg class="ico-pause" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="5" y="4" width="3.6" height="12" rx="1.2" fill="currentColor"/><rect x="11.4" y="4" width="3.6" height="12" rx="1.2" fill="currentColor"/></svg>
+        </button>
+        <button id="miniStep" class="icon-btn" type="button" aria-label="Step forward">＋1</button>
+        <button id="miniNew" class="icon-btn" type="button" aria-label="New array">New</button>
+        <button id="miniReset" class="icon-btn" type="button" aria-label="Reset">⟲</button>
+      </div>
+    </aside>
+  </main>
+
+  <section class="lab" aria-label="Comparison lab">
+    <div class="lab-head">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Same input, fair fight</div>
+        <h2>The comparison lab</h2>
+      </div>
+      <div class="lab-tabs" role="tablist" aria-label="Lab mode">
+        <button id="tabRace" class="is-active" role="tab" aria-selected="true" aria-controls="racePanel" type="button">Race</button>
+        <button id="tabCompare" role="tab" aria-selected="false" aria-controls="comparePanel" type="button">Compare all</button>
+      </div>
+    </div>
+
+    <div id="racePanel" class="lab-panel" role="tabpanel" aria-labelledby="tabRace">
+      <p class="lab-intro">Pick two to four algorithms. They get the same array and the same operation budget, so the winner is decided by the algorithm, not by luck. Pause, step and scrub stay in sync for every lane.</p>
+      <div id="racePicker" class="race-picker"></div>
+      <div class="race-actions">
+        <button id="raceStart" class="btn" type="button">Start race</button>
+        <button id="raceStop" class="btn ghost" type="button" disabled>Back to single view</button>
+        <span id="raceSummary" class="mono tiny" role="status" aria-live="polite"></span>
+      </div>
+      <div id="podium" class="podium" hidden aria-live="polite"></div>
+    </div>
+
+    <div id="comparePanel" class="lab-panel" role="tabpanel" aria-labelledby="tabCompare" hidden>
+      <p class="lab-intro">Every algorithm runs on the current array in the background. The table counts real operations, and the note below explains the result instead of just naming a winner.</p>
+      <div class="race-actions">
+        <button id="compareRun" class="btn" type="button">Compare all algorithms</button>
+        <span id="compareStatus" class="mono tiny" role="status" aria-live="polite"></span>
+      </div>
+      <div id="compareTableWrap" class="table-wrap"></div>
+      <div id="compareNote" class="note" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>Sortlab · every operation is logged, verified and replayable.</span>
+    <span class="footer-links">
+      <a href="https://github.com/Old-Butt-Gold/Sorting-algorithms-visualizer" target="_blank" rel="noopener noreferrer">Source</a>
+      <span class="footer-dot" aria-hidden="true"></span>
+      <span class="mono" id="versionLabel">v2.0</span>
+    </span>
+  </footer>
+
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+
+  <dialog id="helpDialog" class="dialog" aria-labelledby="helpTitle">
+    <div class="dialog-head">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>Field notes</div>
+        <h2 id="helpTitle">How to read the lab</h2>
+      </div>
+      <button class="icon-btn" type="button" data-close-dialog aria-label="Close help">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body">
+      <div class="help-grid">
+        <section>
+          <h3>Keyboard</h3>
+          <dl class="keys">
+            <div><dt><kbd>Space</kbd></dt><dd>Play / pause</dd></div>
+            <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Step one operation</dd></div>
+            <div><dt><kbd>N</kbd></dt><dd>New array, new seed</dd></div>
+            <div><dt><kbd>R</kbd></dt><dd>Repeat the same array</dd></div>
+            <div><dt><kbd>M</kbd></dt><dd>Mute / unmute</dd></div>
+            <div><dt><kbd>1</kbd>–<kbd>9</kbd></dt><dd>Pick an algorithm</dd></div>
+            <div><dt><kbd>Esc</kbd></dt><dd>Close menus and dialogs</dd></div>
+          </dl>
+        </section>
+        <section>
+          <h3>Reading the canvas</h3>
+          <ul class="help-list">
+            <li><i class="dot compare"></i><span><strong>Compare</strong> — two candidates are being checked. The pulse is real work, not decoration.</span></li>
+            <li><i class="dot swap"></i><span><strong>Swap</strong> — elements exchanged places.</span></li>
+            <li><i class="dot pivot"></i><span><strong>Pivot</strong> — the value the partition is built around.</span></li>
+            <li><i class="dot sorted"></i><span><strong>Locked</strong> — this position is final, verified against a sorted copy.</span></li>
+            <li><i class="dot aux"></i><span><strong>Buffer</strong> — merge and radix sort use this lane for temporary values or counters.</span></li>
+          </ul>
+        </section>
+      </div>
+      <p class="help-note">Playback speed is measured in operations per second. It changes how fast the log is replayed, never the algorithm's own complexity. The metrics count virtual work; the replay clock is shown separately and recalculates with speed and scrubbing.</p>
+    </div>
+  </dialog>
+
+  <script src="js/state/util.js"></script>
+  <script src="js/state/config.js"></script>
+  <script src="js/state/rng.js"></script>
+  <script src="js/algorithms/registry.js"></script>
+  <script src="js/algorithms/bubble.js"></script>
+  <script src="js/algorithms/cocktail.js"></script>
+  <script src="js/algorithms/insertion.js"></script>
+  <script src="js/algorithms/binaryInsertion.js"></script>
+  <script src="js/algorithms/selection.js"></script>
+  <script src="js/algorithms/shell.js"></script>
+  <script src="js/algorithms/merge.js"></script>
+  <script src="js/algorithms/quick.js"></script>
+  <script src="js/algorithms/heap.js"></script>
+  <script src="js/algorithms/comb.js"></script>
+  <script src="js/algorithms/gnome.js"></script>
+  <script src="js/algorithms/counting.js"></script>
+  <script src="js/algorithms/radix.js"></script>
+  <script src="js/algorithms/tim.js"></script>
+  <script src="js/algorithms/oddEven.js"></script>
+  <script src="js/algorithms/bogo.js"></script>
+  <script src="js/engine/ops.js"></script>
+  <script src="js/engine/log.js"></script>
+  <script src="js/engine/worker.js"></script>
+  <script src="js/engine/player.js"></script>
+  <script src="js/audio/audio.js"></script>
+  <script src="js/render/renderer.js"></script>
+  <script src="js/ui/overlays.js"></script>
+  <script src="js/ui/pseudocode.js"></script>
+  <script src="js/ui/controls.js"></script>
+  <script src="js/ui/lab.js"></script>
+  <script src="js/ui/export.js"></script>
+  <script src="js/ui/app.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
